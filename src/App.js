@@ -27,26 +27,26 @@ class App extends Component {
         }
     }
     componentDidMount() {
-        const openNotification = () => {
-            notification.open({
-              message: 'REACT',
-              description: (
-                  <div>
-                      <p>
-                        REACT项目实例
-                      </p>
-                      <p>
-                        REACT项目控件展示
-                      </p>
-                  </div>
-              ),
-              icon: <Icon type="smile-circle" style={{ color: 'red' }} />,
-              duration: 0,
-            });
-            localStorage.setItem('isFirst', JSON.stringify(true));
-        };
-        const isFirst = JSON.parse(localStorage.getItem('isFirst'));
-        !isFirst && openNotification();
+        // const openNotification = () => {
+        //     notification.open({
+        //       message: 'REACT',
+        //       description: (
+        //           <div>
+        //               <p>
+        //                 REACT项目实例
+        //               </p>
+        //               <p>
+        //                 REACT项目控件展示
+        //               </p>
+        //           </div>
+        //       ),
+        //       icon: <Icon type="smile-circle" style={{ color: 'red' }} />,
+        //       duration: 0,
+        //     });
+        //     localStorage.setItem('isFirst', JSON.stringify(true));
+        // };
+        // const isFirst = JSON.parse(localStorage.getItem('isFirst'));
+        // !isFirst && openNotification();
     }
     getClientWidth = () => { // 获取当前浏览器宽度并设置responsive管理响应式
         const { receiveData } = this.props;

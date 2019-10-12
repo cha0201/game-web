@@ -9,7 +9,7 @@ import SortTable from './SortTable';
 import SearchTable from './SearchTable';
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import { Link } from 'react-router-dom'; 
-import {getRuleList,updateRule,addRule} from '../../axios/index'
+import {getGameList} from '../../axios/index'
 import { Modal } from 'antd';
 import UpdateRuleForms from './UpdateRuleForm';
 
@@ -56,51 +56,17 @@ class BasicTables extends React.Component{
         addvisible:false,
         confirmLoading: false,
         title:"",
-        data:[]      }
+        data:[],
+        total:50,
+        currentPage: 1,
+        pageSize: 10
+
+        }
       };
 
 
-      handleOk = (e) => {//点击对话框OK按钮触发的事件
-        console.log();
-//上面的代码可以忽略
-        let demo=this.refs.getFormVlaue;//通过refs属性可以获得对话框内form对象
-        demo.validateFields((err, values) => {
-          if(!err){
-            console.log('values====================')
-            updateRule(values).then((res) => {
-              if(res>0){
-                this.loadRuleList('');
-              }
-            }
-        )
-        this.setState({
-          ModalText: 'The modal will be closed after two seconds',
-          confirmLoading: false,
-          updatevisible:false
-        });
-        }
-      });
-      }
+ 
 
-      addHandleOk=() =>{
-        console.log();
-
-        let demo=this.refs.getFormVlaue1;//通过refs属性可以获得对话框内form对象
-        demo.validateFields((err, values) => {
-          if(!err){
-            console.log('values====================')
-            addRule(values).then((res) => {
-              if(res>0){
-                this.loadRuleList('');
-                this.setState({
-                  addvisible:false
-                });//上面的代码可以忽略
-              }
-            }
-        )
-        }
-      });
-      }
 
       handleCancel = () => {//点击取消按钮触发的事件
         console.log('Clicked cancel button');
@@ -139,53 +105,80 @@ class BasicTables extends React.Component{
       }
 
 
-
     
       componentDidMount(){
-        this.loadRuleList('');
+        this.loadGameList('');
      }
+
     
-    loadRuleList=(ruleName)=>{
-      getRuleList(ruleName).then(value=>{
+     loadGameList=(name)=>{
+      getGameList(name,this.state.currentPage,this.state.pageSize).then(value=>{
         console.log("请求后台------------------------->>>>")
-        console.log(value)
         this.setState({
-          data: value
+          data: value,
+          // total: page.total,
         });
-});
-
-
-
-
+      });
     }
 
+   
+    changePage=(page,pageSize)=>{
+      console.log(`page:${page},pageSize:${pageSize}`)
+      this.setState({
+        currentPage: page,
+      })
+
+      
+    }
      
      
 
   render(){
+
+    const pagination={
+      showSizeChanger: true,
+      total: this.state.total,
+      showTotal: detailTotal => `总共 ${detailTotal} 条记录`,
+      current: this.state.currentPage,
+      onChange: this.changePage,
+    };
+
   
     const { visible, confirmLoading, ModalText } = this.state;
-    const columns = [{
-        title: '规则编号',
-        dataIndex: 'ruleId',
-        key: 'ruleId',
-        render: text => <span>{text}</span>,
+    const columns = [ {
+        title: '联赛名称',
+        dataIndex: 'gameUnionName',
+        key: 'gameUnionName',
     }, {
-        title: '规则名称',
-        dataIndex: 'ruleName',
-        key: 'ruleName',
-    }, {
-        title: '名单库',
-        dataIndex: 'listName',
-        key: 'listName',
-        render: (text, record)  => <span><a ><Link style={{ color: '#08c' }}  to={{ pathname: '/app/table/uploadPanel/'+record.ruleId+'/'+record.ruleName}}> {text}</Link></a> </span>,
-    }, {
+        title: '开赛日',
+        dataIndex: 'gameDayTime',
+        key: 'gameDayTime',
+    }, 
+    {
+      title: 'A队',
+      dataIndex: 'gameTeamA',
+      key: 'gameTeamA',
+  },
+  {
+    title: 'B队',
+    dataIndex: 'gameTeamB',
+    key: 'gameTeamB',
+ },
+ {
+  title: '半场比分',
+  dataIndex: 'gameHalfTimeSocre',
+  key: 'gameHalfTimeSocre',
+ },
+ {
+  title: '全场比分',
+  dataIndex: 'gameScore',
+  key: 'gameScore',
+ },{
         title: '操作',
         key: 'action',
         render: (text, record) => (
             <span>
                 <Button onClick={(e)=>{this.handleUpdate(e,record)}}>修改</Button>
-               <Link to={{ pathname: '/app/table/uploadRegionalPanel/'+record.ruleId+'/'+record.ruleName}} > <Button>筛选用户</Button> </Link>
             </span>
         ),
     }];
@@ -198,7 +191,7 @@ class BasicTables extends React.Component{
                     <Card title="规则列表" bordered={false}>
                     <Button  onClick={this.handleAdd}>新增</Button> 
 
-                    <BasicTable  columns={columns} data={this.state.data}/>
+                    <BasicTable  columns={columns} data={this.state.data} pagination={pagination}/>
                     </Card>
                 </div>
                 <div className="gutter-box">

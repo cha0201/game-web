@@ -24,7 +24,7 @@ const renderSubMenu = item => (
         }
     >
                 {item.subs.map(item =>{
-                if(item.key.indexOf('app/table/uploadRegionalPanel') == -1 &&item.key.indexOf('/app/table/uploadPanel') == -1){
+                if(item.key.indexOf('app/table/uploadRegionalPanel') == -1 &&item.key.indexOf('/app/table/GameTaskDetail') == -1){
                     return  renderMenuItem(item)
                 }
                }) }

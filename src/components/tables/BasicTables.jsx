@@ -9,7 +9,7 @@ import SortTable from './SortTable';
 import SearchTable from './SearchTable';
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import { Link } from 'react-router-dom'; 
-import {getRuleList,updateRule,addRule} from '../../axios/index'
+import {getGameList,getGameTaskList,addGameTask} from '../../axios/index'
 import { Modal } from 'antd';
 import UpdateRuleForms from './UpdateRuleForm';
 
@@ -55,52 +55,19 @@ class BasicTables extends React.Component{
         updatevisible: false,
         addvisible:false,
         confirmLoading: false,
+        status:1,
         title:"",
-        data:[]      }
+        data:[],
+        total:0,
+        currentPage: 1,
+        pageSize: 10
+
+        }
       };
 
 
-      handleOk = (e) => {//点击对话框OK按钮触发的事件
-        console.log();
-//上面的代码可以忽略
-        let demo=this.refs.getFormVlaue;//通过refs属性可以获得对话框内form对象
-        demo.validateFields((err, values) => {
-          if(!err){
-            console.log('values====================')
-            updateRule(values).then((res) => {
-              if(res>0){
-                this.loadRuleList('');
-              }
-            }
-        )
-        this.setState({
-          ModalText: 'The modal will be closed after two seconds',
-          confirmLoading: false,
-          updatevisible:false
-        });
-        }
-      });
-      }
+ 
 
-      addHandleOk=() =>{
-        console.log();
-
-        let demo=this.refs.getFormVlaue1;//通过refs属性可以获得对话框内form对象
-        demo.validateFields((err, values) => {
-          if(!err){
-            console.log('values====================')
-            addRule(values).then((res) => {
-              if(res>0){
-                this.loadRuleList('');
-                this.setState({
-                  addvisible:false
-                });//上面的代码可以忽略
-              }
-            }
-        )
-        }
-      });
-      }
 
       handleCancel = () => {//点击取消按钮触发的事件
         console.log('Clicked cancel button');
@@ -127,78 +94,132 @@ class BasicTables extends React.Component{
         });
       }
 
+
+      addHandleOk=() =>{
+        console.log();
+
+        let demo=this.refs.getFormVlaue1;//通过refs属性可以获得对话框内form对象
+        demo.validateFields((err, values) => {
+          if(!err){
+            console.log('values====================')
+            addGameTask(values).then((res) => {
+              if(res>0){
+                this.loadGameTaskList();
+                this.setState({
+                  addvisible:false
+                });//上面的代码可以忽略
+              }
+            }
+        )
+        }
+      });
+      }
+
       
 
       handleAdd = () => {//点击取消按钮触发的事件
         console.log('Clicked cancel button');
         this.setState({
           addvisible: true,
-          title:"新增规则",
+          title:"新增查询任务",
           record: {}
         });
       }
 
 
-
     
       componentDidMount(){
-        this.loadRuleList('');
+        this.loadGameTaskList();
      }
+
     
-    loadRuleList=(ruleName)=>{
-      getRuleList(ruleName).then(value=>{
+     loadGameTaskList=()=>{
+      getGameTaskList(this.state.currentPage,this.state.pageSize).then(value=>{
         console.log("请求后台------------------------->>>>")
-        console.log(value)
         this.setState({
-          data: value
+          data: value.data,
+          total: value.total,
         });
-});
-
-
-
-
+      });
     }
 
+   
+    changePage=(page,pageSize)=>{
+      console.log(`page:${page},pageSize:${pageSize}`)
+      getGameTaskList(page,pageSize).then(value=>{
+        console.log("请求后台------------------------->>>>")
+        this.setState({
+          data: value.data,
+          total: value.total,
+          currentPage: value.pageNum
+        });
+      });
+
+      
+    }
      
      
 
   render(){
+
+    const pagination={
+      showSizeChanger: true,
+      total: this.state.total,
+      showTotal: detailTotal => `总共 ${detailTotal} 条记录`,
+      current: this.state.currentPage,
+      onChange: this.changePage,
+    };
+
   
     const { visible, confirmLoading, ModalText } = this.state;
-    const columns = [{
-        title: '规则编号',
-        dataIndex: 'ruleId',
-        key: 'ruleId',
-        render: text => <span>{text}</span>,
+    const columns = [ {
+        title: '任务编号',
+        dataIndex: 'taskId',
+        key: 'taskId',
     }, {
-        title: '规则名称',
-        dataIndex: 'ruleName',
-        key: 'ruleName',
-    }, {
-        title: '名单库',
-        dataIndex: 'listName',
-        key: 'listName',
-        render: (text, record)  => <span><a ><Link style={{ color: '#08c' }}  to={{ pathname: '/app/table/uploadPanel/'+record.ruleId+'/'+record.ruleName}}> {text}</Link></a> </span>,
-    }, {
+        title: '查询条件',
+        dataIndex: 'condition',
+        key: 'condition',
+    }, 
+    {
+      title: '创建时间',
+      dataIndex: 'createTime',
+      key: 'createTime',
+  },
+  {
+    title: '备注',
+    dataIndex: 'remark',
+    key: 'remark',
+ },
+ {
+  title: '任务状态',
+  dataIndex: 'status',
+  key: 'status',
+  render: (text, record) => (
+    <span>
+       {text=="4"?"处理失败":text=="2"? "入库中":text=="3"?"处理完毕":"待处理"}
+    </span>
+),
+},{
         title: '操作',
         key: 'action',
         render: (text, record) => (
-            <span>
-                <Button onClick={(e)=>{this.handleUpdate(e,record)}}>修改</Button>
-               <Link to={{ pathname: '/app/table/uploadRegionalPanel/'+record.ruleId+'/'+record.ruleName}} > <Button>筛选用户</Button> </Link>
-            </span>
-        ),
+          <span>
+             <Link to={{ pathname: '/app/table/gameTaskDetail/'+record.taskId+'/'+record.name}} > <Button>任务详情</Button> </Link>
+          </span>
+      ),
+
     }];
     return(
         <div className="gutter-example">
-        <BreadcrumbCustom first="表格" second="规则列表" />
+        <BreadcrumbCustom first="表格" second="查询任务列表" />
         <Row gutter={16}>
             <Col className="gutter-row" md={24}>
                 <div className="gutter-box">
-                    <Card title="规则列表" bordered={false}>
-                    <Button  onClick={this.handleAdd}>新增</Button> 
+                    <Card title="任务列表" bordered={false}>
+                    <Button  onClick={this.handleAdd}>新建任务</Button> 
 
-                    <BasicTable  columns={columns} data={this.state.data}/>
+                    <BasicTable  columns={columns} data={this.state.data} pagination={pagination}/>
                     </Card>
                 </div>
                 <div className="gutter-box">

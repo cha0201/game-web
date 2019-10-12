@@ -6,9 +6,10 @@ import Loadable from 'react-loadable';
 import Loading from './widget/Loading';
 import BasicForm from './forms/BasicForm';
 import BasicTable from './tables/BasicTables';
-import UploadPanel from './tables/UploadPanel';
 import UpdateRuleForm from './tables/UpdateRuleForm';
-import UploadRegionalPanel from './tables/UploadRegionalPanel';
+import GameTaskDetail from './tables/GameTaskDetail';
+import GameRecordReport from './tables/GameRecordReport'
+
 import AdvancedTable from './tables/AdvancedTables';
 import AsynchronousTable from './tables/AsynchronousTable';
 import Echarts from './charts/Echarts';
@@ -40,5 +41,5 @@ export default {
     Echarts, Recharts, Icons, Buttons, Spins, Modals, Notifications,
     Tabs, Banners, Drags, Dashboard, Gallery, BasicAnimations,
     ExampleAnimations, AuthBasic, RouterEnter, WysiwygBundle,
-    Cssmodule, MapUi,UploadPanel,UpdateRuleForm,UploadRegionalPanel
+    Cssmodule, MapUi,UpdateRuleForm,GameTaskDetail,GameRecordReport
 }

@@ -4,6 +4,10 @@
 
 import React, { Component } from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { DatePicker } from 'antd';
+import moment from 'moment';
+
+const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
 
 
@@ -28,6 +32,10 @@ class UpdateRuleForm extends Component {
 
     //     console.log(this.props.form.setFieldsValue);
     // }
+    // function onChange(dates, dateStrings) {
+    //   console.log('From: ', dates[0], ', to: ', dates[1]);
+    //   console.log('From: ', dateStrings[0], ', to: ', dateStrings[1]);
+    // }
     
 
 
@@ -48,17 +56,26 @@ class UpdateRuleForm extends Component {
           )}
         </FormItem>
         <FormItem>
-          {getFieldDecorator('ruleName', {
-            rules: [{ required: true, message: '请输入规则名称!' }],
+          {getFieldDecorator('gameName', {
+            rules: [{ required: true, message: '请输入赛事名称!' }],
           })(
-            <Input prefix={<Icon type="smile" style={{ color: 'rgba(0,0,0,.25)' }} value={this.props.ruleName} />} placeholder="规则名称" />
+            <Input prefix={<Icon type="smile" style={{ color: 'rgba(0,0,0,.25)' }} value={this.props.gameName} />} placeholder="赛事名称" />
           )}
         </FormItem>
         <FormItem>
-          {getFieldDecorator('listName', {
-            rules: [{ required: true, message: '请输入名单库名称!' }],
+          {getFieldDecorator('time', {
+            rules: [{ required: true, message: '请输入赛事时间!' }],
           })(
-            <Input prefix={<Icon type="smile" style={{ color: 'rgba(0,0,0,.25)' }} />}  placeholder="名单库名称" />
+            <RangePicker
+            ranges={{
+              Today: [moment(), moment()],
+              'This Month': [moment().startOf('month'), moment().endOf('month')],
+            }}
+            showTime
+            format="YYYY/MM/DD HH:mm:ss"
+            // onChange={onChange}
+          />
+            // <Input prefix={<Icon type="smile" style={{ color: 'rgba(0,0,0,.25)' }} />}  placeholder="赛事时间" />
           )}
         </FormItem>
       </Form>

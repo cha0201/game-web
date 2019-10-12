@@ -40,21 +40,19 @@ export const gitOauthInfo = access_token => axios({
 
 // easy-mock数据交互
 // 管理员权限获取
-export const admin = ({username, password}) => post({url: config.baseUrl + `/oauth/token?grant_type=password&client_id=game-web&client_secret=game-web&username=${username}&password=${password}`});
+ export const admin = ({username, password}) => post({url: config.baseUrl + `/oauth/token?grant_type=password&client_id=game-web&client_secret=game-web&username=${username}&password=${password}`});
 
-export const getRuleList=(ruleName)=>  request(config.baseUrl+`/rule/list`,'get',{ruleName});
+export const getGameList=(taskId)=>  request(config.baseUrl+`/game/list`,'get',{taskId});
 
-export const updateRule=(data)=>  request(config.baseUrl+`/rule/update`,'post',data);
+export const getGameTaskList=(currentPage,pageSize)=> request(config.baseUrl+`/task/list`,'get',{currentPage,pageSize});
 
-export const addRule=(data)=>  request(config.baseUrl+`/rule/add`,'post',data);
+export const addGameTask=(data)=> request(config.baseUrl+`/task/add`,'post',data);
 
-export const uploadRuleUserFile=(data,ruleId)=> request(config.baseUrl+`/rule/upload/${ruleId}`,'post',data);
+export const getGameUserList=()=> request(config.baseUrl+"/user/list",'get',{})
 
-export const getRuleTaskList=(ruleId)=>  request(config.baseUrl+`/task/list`,'get',{ruleId});
+export const getGameRecordAccountList=()=> request(config.baseUrl+"/record/account-list",'get',{})
 
-
-
-
+export const getGameStatisticsList=(time,account,operator)=> request(config.baseUrl+"/record/statistics/list",'get',{time,account,operator})
 
 // 访问权限获取
 export const guest = () => get({url: config.MOCK_AUTH_VISITOR});

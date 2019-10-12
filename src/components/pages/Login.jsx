@@ -52,7 +52,7 @@ class Login extends React.Component {
             <div className="login">
                 <div className="login-form" >
                     <div className="login-logo">
-                        <span>SHUMING</span>
+                        <span>GAME</span>
                         <PwaInstaller />
                     </div>
                     <Form onSubmit={this.handleSubmit} style={{maxWidth: '300px'}}>

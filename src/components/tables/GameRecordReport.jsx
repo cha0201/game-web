@@ -18,7 +18,7 @@ class GameRecordReport extends React.Component{
         this.state={
             accountValue: "",
             userValue: "",
-            timeValue: "1",
+            timeValue: "",
             taskList:[],
             fileList: [],
             currentPage: 1,
@@ -201,7 +201,8 @@ class GameRecordReport extends React.Component{
                 <div>     </div>
                 <div>     </div>
                 <div>
-                    <Select defaultValue="1"  placeholder="按时间"  style={{ width: 138 }} onChange={this.handleTimeChange}>
+                    <Select  placeholder="按时间"  style={{ width: 138 }} onChange={this.handleTimeChange}>
+                        <Option value="">全部</Option>
                         <Option value="1">本周</Option>
                         <Option value="2">上周</Option>
                         <Option value="3">本月</Option>
@@ -209,16 +210,15 @@ class GameRecordReport extends React.Component{
                     <br/>
                     <br/>
 
-                    <Select   defaultValue=""  placeholder="按账号" style={{ width: 138 }} onChange={this.handleAccountChange}>
-                        <Option value="">全部</Option>
-
+                    <Select    placeholder="按账号" style={{ width: 138 }} onChange={this.handleAccountChange}>
+                    <Option value="">全部</Option>
                         {this.state.accountList.map(account => <Option key={account.key}>{account.value}</Option>)}
                         {/* <Option value="1">666</Option> */}
                     </Select>
                     <br/>
                     <br/>
-                    <Select  defaultValue=""   placeholder="按操作用户" style={{ width: 138 }} onChange={this.handleUserChange}>
-                        <Option value="">全部</Option>
+                    <Select     placeholder="按操作用户" style={{ width: 138 }} onChange={this.handleUserChange}>
+                    <Option value="">全部</Option>
                         {this.state.userList.map(user => <Option key={user.userId}>{user.userNickName}</Option>)}
                     </Select>
                 </div>

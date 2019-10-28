@@ -60,8 +60,8 @@ class BasicTables extends React.Component{
         data:[],
         total:0,
         currentPage: 1,
-        pageSize: 10
-
+        pageSize: 10,
+        record: {}
         }
       };
 
@@ -158,7 +158,16 @@ class BasicTables extends React.Component{
       
     }
      
-     
+    handleUpdate = (e,record) => {//点击取消按钮触发的事件
+      console.log('Clicked cancel button');
+      console.log(record);
+      this.setState({
+        updatevisible: true,
+        title:"修改规则",
+        record:record
+      });
+  
+    }
 
   render(){
 
@@ -200,16 +209,15 @@ class BasicTables extends React.Component{
        {text=="4"?"处理失败":text=="2"? "入库中":text=="3"?"处理完毕":"待处理"}
     </span>
 ),
-},{
-        title: '操作',
-        key: 'action',
-        render: (text, record) => (
-          <span>
-             <Link to={{ pathname: '/app/table/gameTaskDetail/'+record.taskId+'/'+record.name}} > <Button>任务详情</Button> </Link>
-          </span>
-      ),
-
-    }];
+},,{
+  title: '操作',
+  key: 'action',
+  render: (text, record) => (
+      <span>
+          <Button onClick={(e)=>{this.handleUpdate(e,record)}}>修改</Button>
+      </span>
+  ),
+}];
     return(
         <div className="gutter-example">
         <BreadcrumbCustom first="表格" second="查询任务列表" />

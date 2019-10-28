@@ -50,6 +50,10 @@ export const addGameTask=(data)=> request(config.baseUrl+`/task/add`,'post',data
 
 export const getGameUserList=()=> request(config.baseUrl+"/user/list",'get',{})
 
+export const gameRecordList=(currentPage,pageSize,account,operator)=> request(config.baseUrl+"/record/list",'get',{currentPage,pageSize,account,operator});
+
+export const updateGameRecord=(data)=>request(config.baseUrl+"/record/update",'post',data);
+
 export const getGameRecordAccountList=()=> request(config.baseUrl+"/record/account-list",'get',{})
 
 export const getGameStatisticsList=(time,account,operator)=> request(config.baseUrl+"/record/statistics/list",'get',{time,account,operator})

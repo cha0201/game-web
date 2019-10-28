@@ -6,6 +6,7 @@ export default {
             subs: [
                 { key: '/app/table/basicTable', title: '查询任务列表', component: 'BasicTable'},
                 { key: '/app/table/gameTaskDetail/:taskId/:taskName', title: '上传数据', component: 'GameTaskDetail'},
+                { key: '/app/table/gameRecordList/', title: '比赛记录列表', component: 'GameRecordList'},
                 { key: '/app/table/gameRecordReport/', title: '报表', component: 'GameRecordReport'}
                 
             ],

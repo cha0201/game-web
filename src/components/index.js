@@ -9,6 +9,7 @@ import BasicTable from './tables/BasicTables';
 import UpdateRuleForm from './tables/UpdateRuleForm';
 import GameTaskDetail from './tables/GameTaskDetail';
 import GameRecordReport from './tables/GameRecordReport'
+import GameRecordList from './tables/GameRecordList'
 
 import AdvancedTable from './tables/AdvancedTables';
 import AsynchronousTable from './tables/AsynchronousTable';
@@ -41,5 +42,5 @@ export default {
     Echarts, Recharts, Icons, Buttons, Spins, Modals, Notifications,
     Tabs, Banners, Drags, Dashboard, Gallery, BasicAnimations,
     ExampleAnimations, AuthBasic, RouterEnter, WysiwygBundle,
-    Cssmodule, MapUi,UpdateRuleForm,GameTaskDetail,GameRecordReport
+    Cssmodule, MapUi,UpdateRuleForm,GameTaskDetail,GameRecordReport,GameRecordList
 }

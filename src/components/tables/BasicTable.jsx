@@ -9,7 +9,7 @@ class BasicTable extends React.Component{
     render(){
         return (
            
-            <Table  columns={this.props.columns} dataSource={this.props.data} />
+            <Table  columns={this.props.columns} dataSource={this.props.data}   pagination={this.props.pagination}/>
         )
     }
 

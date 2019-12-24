@@ -46,6 +46,11 @@ export const getGameList=(taskId)=>  request(config.baseUrl+`/game/list`,'get',{
 
 export const getGameTaskList=(currentPage,pageSize)=> request(config.baseUrl+`/task/list`,'get',{currentPage,pageSize});
 
+export const getDwIdList=()=>  request(config.baseUrl+`/task/dw-id-list`,'get',{});
+
+export const addDwTask=(data)=> request(config.baseUrl+`/task/add-dw-task`,'post',data);
+
+
 export const addGameTask=(data)=> request(config.baseUrl+`/task/add`,'post',data);
 
 export const getGameUserList=()=> request(config.baseUrl+"/user/list",'get',{})

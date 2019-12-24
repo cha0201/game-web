@@ -9,7 +9,7 @@ import SortTable from './SortTable';
 import SearchTable from './SearchTable';
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import { Link } from 'react-router-dom'; 
-import {getGameList,getGameTaskList,addGameTask} from '../../axios/index'
+import {getGameList,getGameTaskList,addGameTask,addDwTask,getDwIdList} from '../../axios/index'
 import { Modal } from 'antd';
 import UpdateRuleForms from './UpdateRuleForm';
 
@@ -61,7 +61,7 @@ class BasicTables extends React.Component{
         total:0,
         currentPage: 1,
         pageSize: 10,
-        record: {}
+        dwIdList: []
         }
       };
 
@@ -102,7 +102,7 @@ class BasicTables extends React.Component{
         demo.validateFields((err, values) => {
           if(!err){
             console.log('values====================')
-            addGameTask(values).then((res) => {
+            addDwTask(values).then((res) => {
               if(res>0){
                 this.loadGameTaskList();
                 this.setState({
@@ -130,6 +130,16 @@ class BasicTables extends React.Component{
     
       componentDidMount(){
         this.loadGameTaskList();
+        this.getDwIdList();
+     }
+
+     getDwIdList=()=>{
+      getDwIdList().then(value=>{
+        console.log("请求后台------------------------->>>>")
+        this.setState({
+         dwIdList:value
+        });
+      });
      }
 
     
@@ -252,7 +262,7 @@ class BasicTables extends React.Component{
           // confirmLoading={confirmLoading}
           onCancel={this.addHandleCancel}
         >
-          <UpdateRuleForms ref="getFormVlaue1" record={this.state.record}/>
+          <UpdateRuleForms ref="getFormVlaue1" record={this.state.record} dwIdList={this.state.dwIdList}/>
         </Modal>
 
     </div>
